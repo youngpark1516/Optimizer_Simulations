@@ -243,7 +243,8 @@ if __name__ == '__main__':
         p.draw(-3, 3, 0.001, title='AdaGrad', show=False)
 
         for i in range(50):
-            prev, val, alpha = AdaGrad(func_val, val, function_prev=func_prev, prev=prev, alpha = alpha, epsilon = eps, learning_rate=lr)  # New prediction using AdaGrad
+            prev, val, alpha = AdaGrad(func_val, val, function_prev=func_prev, prev=prev, alpha = alpha, epsilon = eps,
+                                       learning_rate=lr)  # New prediction using AdaGrad
             func_prev = func_val  # Previous result
             func_val = p.apply(val)  # New result from prediction
             plt.plot([prev, val], [func_prev, func_val], marker="o", color="b")  # Plot change in prediction
@@ -268,7 +269,8 @@ if __name__ == '__main__':
         p.draw(-3, 3, 0.001, title='RMSProp', show=False)
 
         for i in range(50):
-            prev, val, alpha = RMSProp(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, rho = rho, epsilon=eps, learning_rate=lr)  # New prediction using AdaGrad
+            prev, val, alpha = RMSProp(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, rho = rho,
+                                       epsilon=eps, learning_rate=lr)  # New prediction using RMSProp
             func_prev = func_val  # Previous result
             func_val = p.apply(val)  # New result from prediction
             plt.plot([prev, val], [func_prev, func_val], marker="o", color="b")  # Plot change in prediction
@@ -293,7 +295,8 @@ if __name__ == '__main__':
         p.draw(-3, 3, 0.001, title='AdaDelta', show=False)
 
         for i in range(200):
-            prev, val, alpha, delta = AdaDelta(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, rho=rho, delta = delta, epsilon=eps)  # New prediction using AdaGrad
+            prev, val, alpha, delta = AdaDelta(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, rho=rho,
+                                               delta = delta, epsilon=eps)  # New prediction using AdaDelta
             func_prev = func_val  # Previous result
             func_val = p.apply(val)  # New result from prediction
             plt.plot([prev, val], [func_prev, func_val], marker="o", color="b")  # Plot change in prediction
@@ -320,7 +323,8 @@ if __name__ == '__main__':
         p.draw(-3, 3, 0.001, title='Adam', show=False)
 
         for i in range(200):
-            prev, val, alpha, beta = Adam(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, beta = beta, rho1=rho1, rho2 = rho2, epsilon=eps, learning_rate=lr)  # New prediction using AdaGrad
+            prev, val, alpha, beta = Adam(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, beta = beta,
+                                          rho1=rho1, rho2 = rho2, epsilon=eps, learning_rate=lr)  # New prediction using Adam
             func_prev = func_val  # Previous result
             func_val = p.apply(val)  # New result from prediction
             plt.plot([prev, val], [func_prev, func_val], marker="o", color="b")  # Plot change in prediction
