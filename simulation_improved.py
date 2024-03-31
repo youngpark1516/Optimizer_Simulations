@@ -74,7 +74,7 @@ class polynomial:
         if show:
             plt.show()
 
-def gradient_descent(function_value, value, function_prev= None, prev=None, learning_rate=0.01):
+def Gradient_Descent(function_value, value, function_prev= None, prev=None, learning_rate=0.01):
     """
     Gradient descent
 
@@ -112,34 +112,6 @@ def AdaGrad(function_value, value, function_prev=None, prev=None, alpha = 0.1, e
     except:
         return value, value - value * learning_rate, alpha
 
-def AdaDelta(function_value, value, function_prev=None, prev=None, alpha = 0.1, delta = 0, rho = 0.9, epsilon = 1e-7):
-    """
-    Adaptive Learning Rate Method
-
-    :param function_value: Result of the current guess
-    :param value: Value of the current prediction
-    :param function_prev: Result of the previous guess, default None
-    :param prev: Value of the previous prediction, default None
-    :param alpha: Cumulated gradients (for slowing down learning), initially 0.1
-    :param delta: Cumulated rescaled gradients, initially 0
-    :param rho: Discounting factor itfor old gradients, default 0.9
-    :param epsilon: Small number to prevent ZeroDivisionError, default 1e-7
-    :return: Current prediction, updated prediction, updated alpha, updated delta
-    """
-    try:
-        gradient = ((function_value - function_prev) / (value - prev))
-        alpha = rho * alpha + (1 - rho) * gradient ** 2
-        rescaled_gradient = gradient*(np.sqrt(delta + epsilon)/np.sqrt(alpha + epsilon))
-        delta = rho * delta + (1 - rho) * rescaled_gradient ** 2
-        print(alpha, delta)
-        return value, value - rescaled_gradient, alpha, delta
-    except:
-        gradient = 1
-        alpha = rho * alpha + (1 - rho) * gradient ** 2
-        rescaled_gradient = np.sqrt(epsilon)/np.sqrt(alpha + epsilon)
-        delta = rho * delta + (1 - rho) * rescaled_gradient ** 2
-        return value, value-rescaled_gradient, alpha, delta
-
 def RMSProp(function_value, value, function_prev=None, prev=None, alpha = 0.1, rho = 0.9, epsilon = 1e-7, learning_rate = 0.001):
     """
     Root Mean Squared Propagation
@@ -162,20 +134,78 @@ def RMSProp(function_value, value, function_prev=None, prev=None, alpha = 0.1, r
     except:
         return value, value - value * learning_rate, alpha
 
-def Adam():
-    pass
+def AdaDelta(function_value, value, function_prev=None, prev=None, alpha = 0.1, delta = 0, rho = 0.9, epsilon = 1e-7):
+    """
+    Adaptive Learning Rate Method
+
+    :param function_value: Result of the current guess
+    :param value: Value of the current prediction
+    :param function_prev: Result of the previous guess, default None
+    :param prev: Value of the previous prediction, default None
+    :param alpha: Cumulated gradients (for slowing down learning), initially 0.1
+    :param delta: Cumulated rescaled gradients, initially 0
+    :param rho: Discounting factor for old gradients, default 0.9
+    :param epsilon: Small number to prevent ZeroDivisionError, default 1e-7
+    :return: Current prediction, updated prediction, updated alpha, updated delta
+    """
+    try:
+        gradient = ((function_value - function_prev) / (value - prev))
+        alpha = rho * alpha + (1 - rho) * gradient ** 2
+        rescaled_gradient = gradient*(np.sqrt(delta + epsilon)/np.sqrt(alpha + epsilon))
+        delta = rho * delta + (1 - rho) * rescaled_gradient ** 2
+        print(alpha, delta)
+        return value, value - rescaled_gradient, alpha, delta
+    except:
+        gradient = 1
+        alpha = rho * alpha + (1 - rho) * gradient ** 2
+        rescaled_gradient = np.sqrt(epsilon)/np.sqrt(alpha + epsilon)
+        delta = rho * delta + (1 - rho) * rescaled_gradient ** 2
+        return value, value-rescaled_gradient, alpha, delta
+
+def Adam(function_value, value, function_prev=None, prev=None, alpha = 0, beta = 0, rho1 = 0.9, rho2 = 0.999, epsilon = 1e-7, learning_rate = 0.001):
+    """
+    Adaptive Moment Estimation
+
+    :param function_value: Result of the current guess
+    :param value: Value of the current prediction
+    :param function_prev: Result of the previous guess, default None
+    :param prev: Value of the previous prediction, default None
+    :param alpha: Cumulated gradients (moment estimate), initially 0
+    :param beta: Cumulated squared gradients (variance moment estimate), initially 0
+    :param rho1: Discounting factor for moment estimate, default 0.9
+    :param rho2: Discounting factor for variance moment estimate, default 0.999
+    :param epsilon: Small number to prevent ZeroDivisionError, default 1e-7
+    :param learning_rate: Learning rate, default 0.001
+    :return: Current prediction, updated prediction, updated alpha, updated beta
+    """
+    try:
+        gradient = ((function_value - function_prev) / (value - prev))
+        alpha = rho1 * alpha + (1 - rho1) * gradient
+        beta = rho2 * beta + (1 - rho2) * gradient ** 2
+        alpha_normalized = alpha/(1 - rho1)
+        beta_normalized = beta/(1 - rho2)
+        rescaled_gradient = learning_rate*alpha_normalized/(np.sqrt(beta_normalized)+epsilon)
+        return value, value - rescaled_gradient, alpha, beta
+    except:
+        gradient = 1
+        alpha = rho1 * alpha + (1 - rho1) * gradient
+        beta = rho2 * beta + (1 - rho2) * gradient ** 2
+        alpha_normalized = alpha / (1 - rho1)
+        beta_normalized = beta / (1 - rho2)
+        rescaled_gradient = learning_rate*alpha_normalized/(np.sqrt(beta_normalized)+epsilon)
+        return value, value-rescaled_gradient, alpha, beta
 
 if __name__ == '__main__':
     activate = {
-        'gradient descent':False,
+        'Gradient Descent':False,
         'AdaGrad':False,
         'RMSProp':False,
-        'AdaDelta':True,
-        'Adam':False
+        'AdaDelta':False,
+        'Adam':True
     }
 
-    if activate['gradient descent']:
-        #Gradient descent
+    if activate['Gradient Descent']:
+        #Gradient Descent
         p = polynomial([0,0,3]) #Initialize polynomial
         #Initialize inputs
         prev = None #No previous prediction
@@ -189,7 +219,7 @@ if __name__ == '__main__':
         p.draw(-3,3,0.001, title = 'gradient descent',show=False) #Draw polynomial
 
         for i in range(50):
-            prev, val = gradient_descent(func_val,val,func_prev, prev, learning_rate=lr) #New prediction using grad. desc.
+            prev, val = Gradient_Descent(func_val,val,func_prev, prev, learning_rate=lr) #New prediction using grad. desc.
             func_prev = func_val #Previous result
             func_val = p.apply(val) #New result from prediction
             plt.plot([prev,val],[func_prev, func_val],marker = "o",color = "b") #Plot change in prediction
@@ -247,7 +277,6 @@ if __name__ == '__main__':
         plt.show()
 
     if activate['AdaDelta']:
-
         #Adaptive Learning Rate Method
         p = polynomial([0, 0, 3])
         prev = None
@@ -257,7 +286,7 @@ if __name__ == '__main__':
 
         # Hyperparameters
         alpha = 0.1
-        delta = 0.1
+        delta = 0.5
         rho = 0.95
         eps = 1e-7
 
@@ -273,4 +302,28 @@ if __name__ == '__main__':
         plt.show()
 
     if activate['Adam']:
-        pass
+        # Adaptive Moment Estimation
+        p = polynomial([0, 0, 3])
+        prev = None
+        func_prev = None
+        val = random.randint(-3, 3)
+        func_val = p.apply(val)
+
+        # Hyperparameters
+        alpha = 0
+        beta = 0
+        rho1 = 0.9
+        rho2 = 0.99
+        eps = 1e-7
+        lr = 0.05
+
+        p.draw(-3, 3, 0.001, title='Adam', show=False)
+
+        for i in range(200):
+            prev, val, alpha, beta = Adam(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, beta = beta, rho1=rho1, rho2 = rho2, epsilon=eps, learning_rate=lr)  # New prediction using AdaGrad
+            func_prev = func_val  # Previous result
+            func_val = p.apply(val)  # New result from prediction
+            plt.plot([prev, val], [func_prev, func_val], marker="o", color="b")  # Plot change in prediction
+            plt.pause(0.5)
+
+        plt.show()
