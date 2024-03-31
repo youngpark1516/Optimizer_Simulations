@@ -1,4 +1,4 @@
-#Imports
+# Imports
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -13,7 +13,7 @@ class polynomial:
         :param coefficients: A list of coefficients, from the lowest power (x^0)
         :param degree: For randomized polynomial, integer indicating the degree of the polynomial
         """
-        if not coefficients == None:
+        if coefficients:
             self.coefficients = np.array(coefficients)
         elif not degree == None:
             self.coefficients = np.random.randint(-10, 10, degree)
@@ -37,7 +37,7 @@ class polynomial:
         powers = np.arange(0, len(self.coefficients))
         return np.sum(self.coefficients * np.power(value, powers))
 
-    def apply_domain(self, start, end, step=1):
+    def apply_domain(self, start, end, step=1.0):
         """
         Applies the function throughout a given domain
 
@@ -50,7 +50,7 @@ class polynomial:
         domain = np.arange(start, end, step)
         return domain, vectorized_apply(domain)
 
-    def draw(self, start, end, step=1, x_label='x', y_label='y', title=None, show = True):
+    def draw(self, start, end, step=1.0, x_label='x', y_label='y', title=None, show = True):
         """
         Plots the polynomial
 
@@ -112,8 +112,33 @@ def AdaGrad(function_value, value, function_prev=None, prev=None, alpha = 0.1, e
     except:
         return value, value - value * learning_rate, alpha
 
-def AdaDelta():
-    pass
+def AdaDelta(function_value, value, function_prev=None, prev=None, alpha = 0.1, delta = 0, rho = 0.9, epsilon = 1e-7):
+    """
+    Adaptive Learning Rate Method
+
+    :param function_value: Result of the current guess
+    :param value: Value of the current prediction
+    :param function_prev: Result of the previous guess, default None
+    :param prev: Value of the previous prediction, default None
+    :param alpha: Cumulated gradients (for slowing down learning), initially 0.1
+    :param delta: Cumulated rescaled gradients, initially 0
+    :param rho: Discounting factor itfor old gradients, default 0.9
+    :param epsilon: Small number to prevent ZeroDivisionError, default 1e-7
+    :return: Current prediction, updated prediction, updated alpha, updated delta
+    """
+    try:
+        gradient = ((function_value - function_prev) / (value - prev))
+        alpha = rho * alpha + (1 - rho) * gradient ** 2
+        rescaled_gradient = gradient*(np.sqrt(delta + epsilon)/np.sqrt(alpha + epsilon))
+        delta = rho * delta + (1 - rho) * rescaled_gradient ** 2
+        print(alpha, delta)
+        return value, value - rescaled_gradient, alpha, delta
+    except:
+        gradient = 1
+        alpha = rho * alpha + (1 - rho) * gradient ** 2
+        rescaled_gradient = np.sqrt(epsilon)/np.sqrt(alpha + epsilon)
+        delta = rho * delta + (1 - rho) * rescaled_gradient ** 2
+        return value, value-rescaled_gradient, alpha, delta
 
 def RMSProp(function_value, value, function_prev=None, prev=None, alpha = 0.1, rho = 0.9, epsilon = 1e-7, learning_rate = 0.001):
     """
@@ -144,8 +169,8 @@ if __name__ == '__main__':
     activate = {
         'gradient descent':False,
         'AdaGrad':False,
-        'RMSProp':True,
-        'AdaDelta':False,
+        'RMSProp':False,
+        'AdaDelta':True,
         'Adam':False
     }
 
@@ -222,7 +247,30 @@ if __name__ == '__main__':
         plt.show()
 
     if activate['AdaDelta']:
-        pass
+
+        #Adaptive Learning Rate Method
+        p = polynomial([0, 0, 3])
+        prev = None
+        func_prev = None
+        val = random.randint(-3, 3)
+        func_val = p.apply(val)
+
+        # Hyperparameters
+        alpha = 0.1
+        delta = 0.1
+        rho = 0.95
+        eps = 1e-7
+
+        p.draw(-3, 3, 0.001, title='AdaDelta', show=False)
+
+        for i in range(200):
+            prev, val, alpha, delta = AdaDelta(func_val, val, function_prev=func_prev, prev=prev, alpha=alpha, rho=rho, delta = delta, epsilon=eps)  # New prediction using AdaGrad
+            func_prev = func_val  # Previous result
+            func_val = p.apply(val)  # New result from prediction
+            plt.plot([prev, val], [func_prev, func_val], marker="o", color="b")  # Plot change in prediction
+            plt.pause(0.5)
+
+        plt.show()
 
     if activate['Adam']:
         pass
