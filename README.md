@@ -3,6 +3,8 @@
 A lightweight Python project that visualizes how different optimization algorithms behave when minimizing a function: using a custom-built **Polynomial class** as the loss function.  
 This repository evolved from a single experimental script into a modular mini-library (`miniopt`) for reusable and extensible optimizer simulations.
 
+ND version here https://github.com/youngpark1516/miniopt-nd
+
 ---
 
 ## Introduction
