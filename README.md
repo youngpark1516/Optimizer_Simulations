@@ -1,11 +1,11 @@
-# 🧠 Optimizer Simulations
+# Optimizer Simulations
 
 A lightweight Python project that visualizes how different optimization algorithms behave when minimizing a function — using a custom-built **Polynomial class** as the loss function.  
 This repository evolved from a single experimental script into a modular mini-library (`miniopt`) for reusable and extensible optimizer simulations.
 
 ---
 
-## 📖 Introduction
+## Introduction
 
 The goal of **Optimizer Simulations** is to demonstrate the intuition behind various gradient-based optimization algorithms such as Gradient Descent, AdaGrad, RMSProp, AdaDelta, and Adam.
 
@@ -13,7 +13,7 @@ The project creates a *polynomial function* to act as a loss landscape and visua
 
 ---
 
-## 🧩 Project Structure
+## Project Structure
 
 ```
 Optimizer_Simulations/
@@ -41,22 +41,22 @@ Optimizer_Simulations/
 
 ---
 
-## ⚙️ Imports and Dependencies
+## Imports and Dependencies
 
 This project uses three main Python libraries:
 
-### 🧮 NumPy  
+### NumPy  
 A fundamental library for numerical computation, used for:
 - Handling coefficients of the polynomial  
 - Efficiently evaluating and differentiating polynomial functions  
 
-### 📈 Matplotlib  
+### Matplotlib  
 A visualization library used for:
 - Plotting polynomial curves  
 - Animating optimizer trajectories  
 - Displaying convergence over iterations  
 
-### 🎲 Random (Standard Library)  
+### Random (Standard Library)  
 Used for generating random starting points and randomized polynomial coefficients.
 
 Install dependencies using:
@@ -67,7 +67,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🧠 Polynomial Class
+## Polynomial Class
 
 The `Polynomial` class defines a simple mathematical function that acts as the *loss function* for optimization.
 
@@ -93,7 +93,7 @@ Internally, the class supports:
 
 ---
 
-## ⚡ Optimizers Implemented
+## Optimizers Implemented
 
 Each optimizer updates the parameter \( x \) using its own adaptive learning strategy:
 
@@ -114,7 +114,7 @@ class OptimizerName:
 
 ---
 
-## 🧪 Implementation Overview
+## Implementation Overview
 
 The simulation follows these steps:
 
@@ -138,7 +138,7 @@ viz.plot_path_1d(p, history, x_min=-3, x_max=3, title="Adam on 3x²")
 
 ---
 
-## 📊 Visualization Features
+## Visualization Features
 
 `miniopt.viz` provides:
 - **Function plot:** visualize the shape of the polynomial  
@@ -171,14 +171,12 @@ python -m examples.compare_optimizers
 
 ---
 
-## 🧾 License
+## License
 
-This project is open-source and available under the MIT License.
+Man just take it
 
 ---
 
 ## Author
 
-**Chanyoung Park (Paul / 노유민)**  
-Undergraduate Data Science Major at UC San Diego  
-*GitHub:* [@ChanyoungPark](https://github.com/ChanyoungPark)
+**Chanyoung Park**  
