@@ -23,7 +23,7 @@ Optimizer_Simulations/
 │   ├── polynomial.py         # Custom polynomial class with differentiation
 │   ├── optimizers.py         # GD, AdaGrad, RMSProp, Adam implementations
 │   ├── functions.py          # Optional test functions
-│   ├── runner.py             # Optimization engine (no visualization)
+│   ├── runner.py             # Optimization engine
 │   └── viz.py                # Visualization utilities
 │
 ├── examples/                 # Demonstration scripts
@@ -31,8 +31,9 @@ Optimizer_Simulations/
 │   ├── demo_quartic.py
 │   └── compare_optimizers.py
 │
-├── legacy/                   # Original single-file implementation
-│   └── optimizer_v1.py
+├── legacy/                   # Original single-file implementation :()
+│   ├── simulation.py
+│   └── simulation_improved.py
 │
 ├── README.md
 ├── requirements.txt
