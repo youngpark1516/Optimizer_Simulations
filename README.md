@@ -1,6 +1,6 @@
 # Optimizer Simulations
 
-A lightweight Python project that visualizes how different optimization algorithms behave when minimizing a function — using a custom-built **Polynomial class** as the loss function.  
+A lightweight Python project that visualizes how different optimization algorithms behave when minimizing a function: using a custom-built **Polynomial class** as the loss function.  
 This repository evolved from a single experimental script into a modular mini-library (`miniopt`) for reusable and extensible optimizer simulations.
 
 ---
@@ -118,9 +118,9 @@ class OptimizerName:
 
 The simulation follows these steps:
 
-1. **Define a function** — e.g., a quadratic or cubic polynomial.  
-2. **Compute its derivative** — used as the gradient function.  
-3. **Choose an optimizer** — e.g., `Adam(lr=0.05)`.  
+1. **Define a function**  e.g., a quadratic or cubic polynomial.  
+2. **Compute its derivative**  used as the gradient function.  
+3. **Choose an optimizer**  e.g., `Adam(lr=0.05)`.  
 4. **Run optimization** using `run_1d()` in `miniopt/runner.py`.  
 5. **Visualize the results** via `miniopt.viz`.
 
@@ -179,4 +179,4 @@ Man just take it
 
 ## Author
 
-**Chanyoung Park**  
+**Chanyoung Park**
