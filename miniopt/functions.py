@@ -12,3 +12,4 @@ def rosenbrock_1d_like(x, a=1, b=100):
 
 def d_rosenbrock_1d_like(x, a=1, b=100):
     return -2*(a - x) - 4*b*x**3
+ 
